@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Report</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Project Report</h1>
+    <p>JC2503 Web Application Development Coursework</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Introduction</h2>
+      <p>
+        This report describes my personal website and real-time multiplayer
+        puzzle game. The project contains three user-facing pages: a home page,
+        an about page, and a game application page. The first two pages are
+        mostly static HTML and CSS, while the game page uses browser JavaScript
+        and a Node.js server with Express and Socket.IO. The objective was to
+        create a clear website structure and a continuously running shared game
+        where multiple players can join, take turns, place blocks, and receive
+        score updates.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Website Structure and Design</h2>
+      <p>
+        The website is organised around a simple navigation system that links
+        the Home, About, and Game pages. Each page uses a consistent structure
+        with a header, navigation bar, main area, and footer. The Home
+        page introduces the project and the technologies used. The About page
+        gives more personal and academic information, focusing on web
+        development interests and skills. The Game page contains the interactive
+        application, including the player form, current status, game message,
+        board, player list, and scoreboard.
+      </p>
+      <p>
+        A shared stylesheet keeps the design consistent. It uses dark
+        background colours, contrasting text, rounded panels, and responsive grid
+        layouts. Media queries adjust the layout on smaller screens so that the
+        status panels, board, players, and scoreboard remain readable.
+        Accessibility was considered through semantic elements, labelled
+        navigation, button-based board cells, and ARIA labels.
+      </p>
+    </section>
+
+    <section>
+      <h2>3. Game Application Design</h2>
+      <p>
+        The game is implemented as a shared turn-based puzzle on a 4 by 4 grid.
+        The server stores the authoritative game state, including the board,
+        block pool, active players, scores, current player index, current block,
+        and turn timer. The block pool contains 16 unique blocks created from
+        four shapes and four colours. When a turn begins, the server selects one
+        available block at random and sends it only to the current player.
+      </p>
+      <p>
+        The player places the assigned block by clicking an empty cell. The
+        server validates the turn and position, places the block, removes it
+        from the pool, and checks for scoring. Matching lines of three or more
+        blocks are detected horizontally, vertically, and diagonally. If the
+        matching blocks share the same colour or shape, they are removed,
+        returned to the pool, and the player receives one point per removed
+        block. If the board becomes full, it is cleared, the pool is reset, and
+        the player receives a 16-point jackpot.
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Socket.IO Communication</h2>
+      <p>
+        Socket.IO is used for all real-time communication between browser
+        clients and the server. When a user submits a display name, the client
+        emits a joinGame event. The server creates a player record, adds it to
+        the end of the player list, and emits joinedGame back to that client.
+        The server broadcasts gameStateUpdate whenever public game data changes,
+        so all clients can redraw the board, players, scores, current turn, pool
+        count, and countdown timer.
+      </p>
+      <p>
+        At the start of each turn, the server emits yourTurn only to the current
+        player, which keeps the selected block hidden from other players. When
+        the current player clicks a board cell, the client emits placeBlock with
+        the selected row and column. The server then performs the move and
+        broadcasts the updated state and a messageUpdate describing what
+        happened. If a player disconnects or fails to act within one minute, the
+        server removes that player and advances the turn order.
+      </p>
+    </section>
+
+    <section>
+      <h2>5. Reflection</h2>
+      <p>
+        The most challenging part of the project was separating client display
+        logic from server game logic. Early versions could easily become
+        inconsistent if the browser assumed too much about the game state. I
+        therefore kept the server as the authority for board contents, scores,
+        turn order, and timeouts. Another challenge was making the interface
+        understandable for both the current player and waiting players. The
+        final version shows the current turn, assigned block, pool count,
+        scores, status messages, and a visible one-minute countdown.
+      </p>
+      <p>
+        I also learned that small interface details can affect usability.
+        Focused board cells originally made newly placed blocks appear
+        uncoloured until the next click, which was fixed by improving the CSS
+        rules for coloured block states. Overall, the project helped me
+        understand how HTML, CSS, and JavaScript can work with a Node.js server
+        to create a live multi-user application.
+      </p>
+    </section>
+
+    <section>
+      <h2>6. References and GenAI Acknowledgement</h2>
+      <p>
+        References used during development include the MDN Web Docs for HTML,
+        CSS, and JavaScript; the Node.js documentation; the Express
+        documentation; and the Socket.IO documentation. These sources were used
+        to check syntax, event handling patterns, server structure, and general
+        web development behaviour.
+      </p>
+      <ul>
+        <li><a href="https://developer.mozilla.org/">MDN Web Docs</a></li>
+        <li><a href="https://nodejs.org/docs/">Node.js Documentation</a></li>
+        <li><a href="https://expressjs.com/">Express Documentation</a></li>
+        <li><a href="https://socket.io/docs/v4/">Socket.IO Documentation</a></li>
+      </ul>
+      <p>
+        Generative AI was used as an assistant for debugging, proofreading, and
+        improving small parts of the wording and code. The project structure,
+        implementation decisions, testing, and final responsibility for the
+        submitted work remain my own.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>JC2503 Web Application Development Coursework</p>
+  </footer>
+</body>
+</html>

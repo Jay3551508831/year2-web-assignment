@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game | JUNYU CHEN's Personal Website</title>
+  <link rel="stylesheet" href="css/style.css?v=3">
+</head>
+<body>
+  <header>
+    <h1>Multiplayer Puzzle Game</h1>
+    <p>A turn-based 4×4 puzzle game using Socket.IO.</p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="game.html">Game</a>
+  </nav>
+
+  <main class="game-page">
+    <section class="game-hero-panel">
+      <h2>Enter the Arena</h2>
+      <p>
+        Join the shared puzzle board, wait for your turn, and place your assigned
+        block carefully to create matching lines.
+      </p>
+
+      <form id="join-form">
+        <label for="player-name">Display name:</label>
+        <input type="text" id="player-name" required>
+        <button type="submit">Join Game</button>
+      </form>
+    </section>
+
+    <section class="game-announcement" aria-live="polite">
+      <h2>Game Message</h2>
+      <p id="message-area">No messages yet.</p>
+    </section>
+
+    <div class="game-layout">
+      <aside class="game-left-panel">
+        <section class="status-panel">
+          <h2>Game Status</h2>
+
+          <div class="status-card">
+            <span class="status-label">Your Status</span>
+            <p id="game-status">Please enter your name to join the game.</p>
+          </div>
+
+          <div class="status-card">
+            <span class="status-label">Current Turn</span>
+            <p id="turn-status">Current turn: none</p>
+          </div>
+
+          <div class="status-card timer-card" aria-live="polite">
+            <span class="status-label">Move Timer</span>
+            <p id="turn-timer">Time remaining: --</p>
+          </div>
+
+          <div class="status-card current-block-card">
+            <span class="status-label">Your Current Block</span>
+
+            <div id="current-block-preview" class="block-preview-card block-preview-empty" aria-live="polite">
+              <span class="block-preview-symbol">?</span>
+              <span class="block-preview-text">No block yet</span>
+            </div>
+
+            <p id="current-block">Current block: none</p>
+          </div>
+
+          <div class="status-card">
+            <span class="status-label">Block Pool</span>
+            <p id="pool-count">Blocks remaining in pool: 16</p>
+          </div>
+        </section>
+      </aside>
+
+      <section class="game-main-panel">
+        <div class="panel-title-row">
+          <div>
+            <h2>Game Board</h2>
+            <p>Place your block on an empty cell when it is your turn.</p>
+          </div>
+          <span class="board-badge">4 × 4</span>
+        </div>
+
+        <div id="game-board" class="game-board" aria-label="4 by 4 game board">
+          <button class="cell" data-row="0" data-col="0" aria-label="Empty cell row 1 column 1"></button>
+          <button class="cell" data-row="0" data-col="1" aria-label="Empty cell row 1 column 2"></button>
+          <button class="cell" data-row="0" data-col="2" aria-label="Empty cell row 1 column 3"></button>
+          <button class="cell" data-row="0" data-col="3" aria-label="Empty cell row 1 column 4"></button>
+
+          <button class="cell" data-row="1" data-col="0" aria-label="Empty cell row 2 column 1"></button>
+          <button class="cell" data-row="1" data-col="1" aria-label="Empty cell row 2 column 2"></button>
+          <button class="cell" data-row="1" data-col="2" aria-label="Empty cell row 2 column 3"></button>
+          <button class="cell" data-row="1" data-col="3" aria-label="Empty cell row 2 column 4"></button>
+
+          <button class="cell" data-row="2" data-col="0" aria-label="Empty cell row 3 column 1"></button>
+          <button class="cell" data-row="2" data-col="1" aria-label="Empty cell row 3 column 2"></button>
+          <button class="cell" data-row="2" data-col="2" aria-label="Empty cell row 3 column 3"></button>
+          <button class="cell" data-row="2" data-col="3" aria-label="Empty cell row 3 column 4"></button>
+
+          <button class="cell" data-row="3" data-col="0" aria-label="Empty cell row 4 column 1"></button>
+          <button class="cell" data-row="3" data-col="1" aria-label="Empty cell row 4 column 2"></button>
+          <button class="cell" data-row="3" data-col="2" aria-label="Empty cell row 4 column 3"></button>
+          <button class="cell" data-row="3" data-col="3" aria-label="Empty cell row 4 column 4"></button>
+        </div>
+      </section>
+
+      <aside class="game-right-panel">
+        <section class="players-panel">
+          <h2>Players</h2>
+          <ul id="player-list"></ul>
+        </section>
+
+        <section class="score-panel">
+          <h2>Scoreboard</h2>
+          <ul id="scoreboard"></ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <p>JC2503 Web Application Development Coursework</p>
+  </footer>
+
+<!--suppress HtmlUnknownTarget -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/game.js?v=3"></script>
+</body>
+</html>
